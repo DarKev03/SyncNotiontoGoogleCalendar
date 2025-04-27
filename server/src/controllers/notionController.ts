@@ -7,7 +7,7 @@ export const redirectToNotion = (req: Request, res: Response): void => {
     client_id: process.env.NOTION_CLIENT_ID as string,
     response_type: 'code',
     owner: 'user',
-    redirect_uri: process.env.NOTION_REDIRECT_URI as string
+    redirect_uri: process.env.NOTION_REDIRECT_URI as string,
   });
 
   res.redirect(`https://api.notion.com/v1/oauth/authorize?${params.toString()}`);
