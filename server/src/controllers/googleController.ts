@@ -39,7 +39,8 @@ export const googleCallback = async (req: Request, res: Response) => {
 
     console.log('Tokens: ', tokens);
 
-    // Buscar usuario en mongoDB
+    // Buscar usuario en mongoDB    
+    console.log('notion_user_id: ', notion_user_id); //Borrar luego    
     const user = await User.findOne({notion_user_id: notion_user_id});
 
     if (!user) {

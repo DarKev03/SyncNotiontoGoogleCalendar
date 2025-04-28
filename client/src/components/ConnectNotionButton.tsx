@@ -7,7 +7,7 @@ const ConnectNotionButton: React.FC = () => {
 
   return (
     <button onClick={handleClick} style={{ padding: '10px 20px', fontSize: '16px' }}>
-      Conectar con Notion
+      Conectar cuentas
     </button>
   );
 };
