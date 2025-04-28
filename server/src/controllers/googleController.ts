@@ -39,8 +39,7 @@ export const googleCallback = async (req: Request, res: Response) => {
 
     console.log('Tokens: ', tokens);
 
-    // Buscar usuario en mongoDB    
-    console.log('notion_user_id: ', notion_user_id); //Borrar luego    
+    // Buscar usuario en mongoDB            
     const user = await User.findOne({notion_user_id: notion_user_id});
 
     if (!user) {
@@ -56,5 +55,6 @@ export const googleCallback = async (req: Request, res: Response) => {
     await user.save();
 
 
-    res.send('¡Autenticación de Google completada!');
+    res.send('¡Autenticación de Google completada! Puedes cerrar esta ventana.');
+    
 };

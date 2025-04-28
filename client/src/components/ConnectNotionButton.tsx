@@ -2,7 +2,7 @@ import React from 'react';
 
 const ConnectNotionButton: React.FC = () => {
   const handleClick = () => {
-    window.location.href = 'http://localhost:5050/auth/notion';
+    window.open('http://localhost:5050/auth/notion', '_blank');
   };
 
   return (
