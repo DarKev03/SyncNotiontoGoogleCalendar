@@ -46,7 +46,8 @@ export const handleNotionCallback = async (req: Request, res: Response): Promise
 
     console.log('✅ Token de Notion guardado en la base de datos');
 
-    res.send('¡Integración con Notion completada! Puedes cerrar esta pestaña.');
+    res.redirect('http://localhost:5050/auth/google?notion_user_id=${owner?.user?.id}');
+    console.log('✅ Redirigiendo a la autenticación de Google');
   } catch (error: any) {
     console.error('❌ Error en el callback de Notion:', error.response?.data || error.message);
     res.status(500).send('Error al conectar con Notion');
