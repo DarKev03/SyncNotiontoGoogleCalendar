@@ -1,8 +1,8 @@
 import React from 'react';
 
 const ConnectNotionButton: React.FC = () => {
-  const handleClick = () => {
-    window.open('https://syncnotiontogooglecalendar.onrender.com/auth/notion', '_blank');
+  const handleClick = () => {    
+    window.open(`${process.env.REACT_APP_NOTION_AUTH}`, '_blank');
   };
 
   return (
