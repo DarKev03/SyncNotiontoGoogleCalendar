@@ -1,5 +1,6 @@
 import React from 'react';
 import ConnectNotionButton from '../components/ConnectNotionButton';
+import DatabaseSelector from '../components/DatabaseSelector';
 
 const Home: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
         Conecta tu cuenta para empezar a sincronizar tus tareas.
       </p>
       <ConnectNotionButton />
+      <DatabaseSelector />
     </div>
   );
 };

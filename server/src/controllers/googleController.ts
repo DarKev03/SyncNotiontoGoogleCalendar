@@ -26,7 +26,7 @@ export const authGoogle = (req: Request, res: Response) => {
 };
 
 export const googleCallback = async (req: Request, res: Response) => {
-    const code = req.query.code as string;
+    const code = req.query.cleode as string;
     const notion_user_id = req.query.state as string;
 
     const oauth2Client = new google.auth.OAuth2(
