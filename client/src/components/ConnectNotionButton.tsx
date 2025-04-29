@@ -2,7 +2,7 @@ import React from 'react';
 
 const ConnectNotionButton: React.FC = () => {
   const handleClick = () => {
-    window.open('http://localhost:5050/auth/notion', '_blank');
+    window.open('https://syncnotiontogooglecalendar.onrender.com/auth/notion', '_blank');
   };
 
   return (
