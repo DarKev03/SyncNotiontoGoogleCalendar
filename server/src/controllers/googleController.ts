@@ -54,7 +54,14 @@ export const googleCallback = async (req: Request, res: Response) => {
     user.google_token_expires_at = tokens.expiry_date ? new Date(tokens.expiry_date) : undefined;
     await user.save();
 
+    res.cookie('user_token', notion_user_id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Solo en producción        
+        sameSite: 'lax', // Protege de CSRF
+        maxAge: 1000 * 60 * 60 * 24 * 30 // (opcional) 30 días
+      });
 
-    res.send('¡Autenticación de Google completada! Puedes cerrar esta ventana.');
+      
+    res.send('¡Autenticación de Google completada! Puedes cerrar esta window.');
     
 };
