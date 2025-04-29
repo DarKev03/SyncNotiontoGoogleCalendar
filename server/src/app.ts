@@ -2,13 +2,22 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import notionRoutes from './routes/auth';
+import cookieParser from 'cookie-parser';
 import User from './models/User';
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigin = process.env.NODE_ENV === 'production'
+  ? 'https://tu-dominio.com'   // El dominio real en producción
+  : 'http://localhost:3000';   // El dominio de desarrollo
+
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 
 // Rutas de Notion
