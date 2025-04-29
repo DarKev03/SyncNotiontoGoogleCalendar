@@ -10,7 +10,7 @@ export default function DatabaseList() {
     const [databases, setDatabases] = useState<NotionDatabase[]>([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5050/auth/databases', { withCredentials: true })
+        axios.get(`${process.env.REACT_APP_NOTION_DATABASES}`, { withCredentials: true })
             .then(res => setDatabases(res.data))
             .catch(err => console.error('Error al cargar bases de datos:', err));
     }, []);
