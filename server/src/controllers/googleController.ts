@@ -61,7 +61,7 @@ export const googleCallback = async (req: Request, res: Response) => {
         maxAge: 1000 * 60 * 60 * 24 * 30 // (opcional) 30 días
       });
 
-
-    res.send('¡Autenticación de Google completada! Puedes cerrar esta ventana.');
+      
+    res.send('¡Autenticación de Google completada! Puedes cerrar esta window.');
     
 };
