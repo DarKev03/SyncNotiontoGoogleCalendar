@@ -37,9 +37,9 @@ export const googleCallback = async (req: Request, res: Response) => {
         process.env.GOOGLE_CLIENT_SECRET,
         process.env.GOOGLE_REDIRECT_URI
     );
-    
+
     console.log('Recibiendo code de Google:', req.query.code);
-        
+
     const { tokens } = await oauth2Client.getToken(code);
 
     console.log('Tokens: ', tokens);
@@ -61,9 +61,9 @@ export const googleCallback = async (req: Request, res: Response) => {
 
     res.cookie('user_token', notion_user_id, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Solo en producción        
-        sameSite: 'lax', // Protege de CSRF
-        maxAge: 1000 * 60 * 60 * 24 * 30 // (opcional) 30 días
+        secure: true, // obligatorio con SameSite: 'none'
+        sameSite: 'none', // esto permite enviar cookies en cross-site
+        maxAge: 1000 * 60 * 60 * 24 * 30
     });
 
 
