@@ -62,6 +62,6 @@ export const googleCallback = async (req: Request, res: Response) => {
       });
 
       
-    res.send('¡Autenticación de Google completada! Puedes cerrar esta window.');
+    res.redirect(process.env.NODE_ENV === 'production'? 'https://syncnotiontogooglecalendar-front.onrender.com' : 'http://localhost:3000');
     
 };
