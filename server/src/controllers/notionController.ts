@@ -61,7 +61,7 @@ export const listDatabases = async (req: Request, res: Response): Promise<void> 
   const notion_user_id = req.cookies.user_token as string;
   const user = await User.findOne({ notion_user_id });
 
-  console.log('ID de usuario de Notion:', notion_user_id);
+  console.log('ID de las cookies:', notion_user_id);
 
   if (!user) {
     res.status(404).send('Usuario no encontrado. Sincroniza tu cuenta de Notion');
