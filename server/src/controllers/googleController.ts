@@ -59,12 +59,22 @@ export const googleCallback = async (req: Request, res: Response) => {
     user.google_token_expires_at = tokens.expiry_date ? new Date(tokens.expiry_date) : undefined;
     await user.save();
 
-    res.cookie('user_token', notion_user_id, {
-        httpOnly: true,
-        secure: true, // obligatorio con SameSite: 'none'
-        sameSite: 'none', // esto permite enviar cookies en cross-site
-        maxAge: 1000 * 60 * 60 * 24 * 30
-    });
+    try {
+        res.cookie('user_token', notion_user_id, {
+            httpOnly: true,
+            secure: true, // obligatorio con SameSite: 'none'
+            sameSite: 'none', // esto permite enviar cookies en cross-site
+            maxAge: 1000 * 60 * 60 * 24 * 30
+        });
+        console.log('✅ Cookie de usuario guardada');
+    } catch (error) {
+        console.error('❌ Error guardando la cookie de usuario:', error);
+        res.status(500).send('Error guardando la cookie de usuario');
+        return;
+    }
+
+
+
 
 
     res.redirect(process.env.NODE_ENV === 'production' ? 'https://syncnotiontogooglecalendar-front.onrender.com' : 'http://localhost:3000');
