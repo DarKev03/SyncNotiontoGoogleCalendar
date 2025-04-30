@@ -25,7 +25,13 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
     styleSrc: ["'self'", "https://fonts.googleapis.com"],
-    fontSrc: ["'self'", "https://fonts.gstatic.com"]
+    styleSrcElem: ["'self'", "https://fonts.googleapis.com"],
+    fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    connectSrc: ["'self'"], // Para llamadas a APIs
+    scriptSrc: ["'self'"], // Si tienes scripts inline o externos, ajusta esto
+    imgSrc: ["'self'"],     // Para imágenes si las tienes
+    baseUri: ["'self'"],
+    formAction: ["'self'"]
   }
 }));
 
