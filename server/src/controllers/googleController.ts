@@ -4,6 +4,7 @@ import User from '../models/User';
 
 export const authGoogle = (req: Request, res: Response) => {
     const notion_user_id = req.query.notion_user_id as string;
+
     const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
         process.env.GOOGLE_CLIENT_SECRET,
@@ -17,8 +18,8 @@ export const authGoogle = (req: Request, res: Response) => {
 
     const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
-        scope: scopes,
         prompt: 'consent',
+        scope: scopes,
         state: notion_user_id
     });
 
@@ -26,11 +27,14 @@ export const authGoogle = (req: Request, res: Response) => {
 };
 
 export const googleCallback = async (req: Request, res: Response) => {
-    const code = req.query.cleode as string;
+    const code = req.query.code as string;
     const notion_user_id = req.query.state as string;
+
     console.log("CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
     console.log("CLIENT_SECRET:", process.env.GOOGLE_CLIENT_SECRET);
     console.log("REDIRECT_URI:", process.env.GOOGLE_REDIRECT_URI);
+    console.log('🔁 Código recibido:', code);
+    console.log('👤 Notion User ID:', notion_user_id);
 
     const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
@@ -38,37 +42,40 @@ export const googleCallback = async (req: Request, res: Response) => {
         process.env.GOOGLE_REDIRECT_URI
     );
 
-    console.log('Recibiendo code de Google:', req.query.code);
     try {
         const { tokens } = await oauth2Client.getToken(code);
-        console.log('Tokens: ', tokens);
+        console.log('✅ Tokens de Google recibidos:', tokens);
+
+        // Buscar usuario en la base de datos
+        const user = await User.findOne({ notion_user_id });
+
+        if (!user) {
+            console.error('❌ Usuario no encontrado en MongoDB');
+            return res.status(404).send('Usuario no encontrado');
+        }
+
+        // Guardar tokens en el usuario
+        user.google_access_token = tokens.access_token!;
+        user.google_refresh_token = tokens.refresh_token!;
+        user.google_token_expires_at = tokens.expiry_date ? new Date(tokens.expiry_date) : undefined;
+        await user.save();
+
+        // Cookie segura para mantener sesión
+        res.cookie('user_token', notion_user_id, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 1000 * 60 * 60 * 24 * 30 // 30 días
+        });
+
+        // Redirigir al frontend
+        return res.redirect(
+            process.env.NODE_ENV === 'production'
+                ? 'https://syncnotiontogooglecalendar-front.onrender.com'
+                : 'http://localhost:3000'
+        );
     } catch (err: any) {
-        console.error('Fallo al intercambiar el code por tokens:', err.response?.data || err.message);
-        return res.status(500).send('Fallo en el token exchange');
+        console.error('💥 Error al intercambiar el code por tokens:', err.response?.data || err.message);
+        return res.status(500).send('Fallo en el token exchange con Google');
     }
-    // Buscar usuario en mongoDB            
-    const user = await User.findOne({ notion_user_id: notion_user_id });
-
-    if (!user) {
-        console.error('❌ Usuario no encontrado en la base de datos');
-        res.status(404).send('Usuario no encontrado');
-        return;
-    }
-
-    // Guardar el token de Google en la base de datos
-    user.google_access_token = tokens.access_token!;
-    user.google_refresh_token = tokens.refresh_token!;
-    user.google_token_expires_at = tokens.expiry_date ? new Date(tokens.expiry_date) : undefined;
-    await user.save();
-
-    res.cookie('user_token', notion_user_id, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Solo en producción        
-        sameSite: 'lax', // Protege de CSRF
-        maxAge: 1000 * 60 * 60 * 24 * 30 // (opcional) 30 días
-    });
-
-
-    res.redirect(process.env.NODE_ENV === 'production' ? 'https://syncnotiontogooglecalendar-front.onrender.com' : 'http://localhost:3000');
-
 };
