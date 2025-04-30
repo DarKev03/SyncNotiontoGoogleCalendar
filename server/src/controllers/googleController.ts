@@ -63,22 +63,17 @@ export const googleCallback = async (req: Request, res: Response) => {
         res.cookie('user_token', notion_user_id, {
             httpOnly: true,
             secure: true, // obligatorio con SameSite: 'none'
-            sameSite: 'none',
-            maxAge: 1000 * 60 * 60 * 24 * 30 // 30 días
+            sameSite: 'none', // esto permite enviar cookies en cross-site
+            maxAge: 1000 * 60 * 60 * 24 * 30
         });
-
-        console.log('🍪 Cookie "user_token" seteada');
-        console.log('🔐 Headers de respuesta:', res.getHeaders());
-
-        // Redirigir al frontend
-        const frontendUrl = process.env.NODE_ENV === 'production'
-            ? 'https://syncnotiontogooglecalendar-front.onrender.com'
-            : 'http://localhost:3000';
-
-        console.log('➡️ Redirigiendo al frontend:', frontendUrl);
-        return res.redirect(frontendUrl);
-    } catch (error: any) {
-        console.error('💥 Error en el callback de Google:', error.response?.data || error.message);
-        return res.status(500).send('Error procesando el callback de Google');
+        console.log('✅ Cookie de usuario guardada');
+    } catch (error) {
+        console.error('❌ Error guardando la cookie de usuario:', error);
+        res.status(500).send('Error guardando la cookie de usuario');
+        return;
     }
+
+
+    res.redirect(process.env.NODE_ENV === 'production' ? 'https://syncnotiontogooglecalendar-front.onrender.com' : 'http://localhost:3000');
+
 };
