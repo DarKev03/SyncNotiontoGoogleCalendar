@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import notionRoutes from './routes/auth';
 import cookieParser from 'cookie-parser';
 import User from './models/User';
+import helmet from 'helmet';
 
 dotenv.config();
 
@@ -19,6 +20,14 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'", "https://fonts.googleapis.com"],
+    fontSrc: ["'self'", "https://fonts.gstatic.com"]
+  }
+}));
 
 // Rutas de Notion
 app.use('/auth', notionRoutes);
