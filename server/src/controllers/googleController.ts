@@ -38,10 +38,14 @@ export const googleCallback = async (req: Request, res: Response) => {
         process.env.GOOGLE_REDIRECT_URI
     );
 
-    const { tokens } = await oauth2Client.getToken(code);
-
-    console.log('Tokens: ', tokens);
-
+    console.log('Recibiendo code de Google:', req.query.code);
+    try {
+        const { tokens } = await oauth2Client.getToken(code);
+        console.log('Tokens: ', tokens);
+    } catch (err: any) {
+        console.error('Fallo al intercambiar el code por tokens:', err.response?.data || err.message);
+        return res.status(500).send('Fallo en el token exchange');
+    }
     // Buscar usuario en mongoDB            
     const user = await User.findOne({ notion_user_id: notion_user_id });
 
