@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 const allowedOrigin = process.env.NODE_ENV === 'production'
-  ? 'https://tu-dominio.com'   // El dominio real en producción
+  ? 'https://syncnotiontogooglecalendar.onrender.com/'   // El dominio real en producción
   : 'http://localhost:3000';   // El dominio de desarrollo
 
 app.use(cors({
