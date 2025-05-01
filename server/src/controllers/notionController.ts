@@ -87,7 +87,7 @@ export const listDatabases = async (req: Request, res: Response): Promise<void> 
       }
     );
 
-    console.log('✅ Bases de datos obtenidas:', response.data.results.toJSON());
+    console.log('✅ Bases de datos obtenidas:', res.json(response.data.results));
 
     res.json(response.data.results); // Envías solo las bases de datos
   } catch (error: any) {
