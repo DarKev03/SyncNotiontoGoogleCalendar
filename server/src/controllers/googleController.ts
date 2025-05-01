@@ -81,7 +81,7 @@ export const googleCallback = async (req: Request, res: Response) => {
     </head>
     <body>
       <script>
-        // Aquí puedes incluso guardar algo en localStorage si quieres
+        
         window.location.href = 'https://syncnotiontogooglecalendar-front.onrender.com';
       </script>
     </body>
