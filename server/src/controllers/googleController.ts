@@ -74,6 +74,6 @@ export const googleCallback = async (req: Request, res: Response) => {
     }
 
 
-    res.redirect(process.env.NODE_ENV === 'production' ? 'https://syncnotiontogooglecalendar-front.onrender.com' : 'http://localhost:3000');
+    res.status(200).json({ success: true, redirectTo: 'https://syncnotiontogooglecalendar-front.onrender.com' });
 
 };
