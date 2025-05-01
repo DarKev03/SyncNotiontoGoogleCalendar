@@ -21,10 +21,15 @@ const Home: React.FC = () => {
       <p style={{ fontSize: '1.25rem', marginBottom: '2rem', color: '#6b7280' }}>
         Conecta tu cuenta para empezar a sincronizar tus tareas.
       </p>
-      <ConnectNotionButton />
+
+      <div style={{ marginBottom: '1.5rem' }}>
+        <ConnectNotionButton />
+      </div>
+
       <DatabaseSelector />
     </div>
   );
+
 };
 
 export default Home;

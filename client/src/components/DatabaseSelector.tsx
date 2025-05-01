@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { hover } from '@testing-library/user-event/dist/hover';
 
 interface NotionDatabase {
     id: string;
@@ -28,7 +29,7 @@ export default function DatabaseList() {
                 const notionUserId = params.get('notion_user_id');
 
                 if (!notionUserId) {
-                    setError('No hay cookie ni ID de usuario disponible.');
+                    setError('Debes conectar tus cuentas primero.');
                     return;
                 }
 
@@ -52,8 +53,23 @@ export default function DatabaseList() {
 
     return (
         <div>
-            <h2>📚 Bases de datos de Notion:</h2>
-            <button onClick={handleListDatabases}>Mostrar bases de datos</button>
+            <h3>Listar bases de datos</h3>            
+            <button onClick={handleListDatabases} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="black"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+
+            </button>
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
