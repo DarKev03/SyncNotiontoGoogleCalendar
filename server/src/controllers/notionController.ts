@@ -58,10 +58,13 @@ export const handleNotionCallback = async (req: Request, res: Response): Promise
 };
 
 export const listDatabases = async (req: Request, res: Response): Promise<void> => {
+  // Verificamos si el usuario está autenticado
+  const nodeEnv = process.env.NODE_ENV;  
   const notion_user_id = req.cookies.user_token as string;
   const user = await User.findOne({ notion_user_id });
 
   console.log('ID de las cookies:', notion_user_id);
+  console.log('Entorno de producción:', nodeEnv);
 
   if (!user) {
     res.status(404).send('Usuario no encontrado. Sincroniza tu cuenta de Notion');
@@ -87,7 +90,7 @@ export const listDatabases = async (req: Request, res: Response): Promise<void> 
       }
     );
 
-    res.json(response.data.results) ? console.log('✅ Bases de datos obtenidas:') : console.log('❌ No se encontraron bases de datos');
+    response.data.results && response.data.results.length > 0 ? console.log('✅ Bases de datos obtenidas:') : console.log('❌ No se encontraron bases de datos');
 
     res.json(response.data.results); // Envías solo las bases de datos
   } catch (error: any) {
