@@ -8,7 +8,7 @@ const router: Router = Router();
 // Notion
 router.get('/notion', redirectToNotion);
 router.get('/notion/callback', handleNotionCallback);
-router.get('/databases', listDatabases); // 🚀 Nueva ruta aquí mismo
+router.get('/databases-test', listDatabases); // 🚀 Nueva ruta aquí mismo
 
 // Google
 router.get('/google', authGoogle);
