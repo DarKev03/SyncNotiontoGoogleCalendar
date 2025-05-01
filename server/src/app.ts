@@ -27,13 +27,14 @@ app.use(helmet.contentSecurityPolicy({
     styleSrc: ["'self'", "https://fonts.googleapis.com"],
     styleSrcElem: ["'self'", "https://fonts.googleapis.com"],
     fontSrc: ["'self'", "https://fonts.gstatic.com"],
-    connectSrc: ["'self'"], // Para llamadas a APIs
-    scriptSrc: ["'self'"], // Si tienes scripts inline o externos, ajusta esto
-    imgSrc: ["'self'"],     // Para imágenes si las tienes
+    connectSrc: ["'self'", allowedOrigin], // ✅ aquí entra el frontend
+    scriptSrc: ["'self'"],
+    imgSrc: ["'self'"],
     baseUri: ["'self'"],
-    formAction: ["'self'"]
+    formAction: ["'self'", allowedOrigin] // Por si hay algún submit implícito
   }
 }));
+
 
 // Rutas de Notion
 app.use('/auth', notionRoutes);
