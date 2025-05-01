@@ -15,7 +15,7 @@ const allowedOrigin = process.env.NODE_ENV === 'production'
   : 'http://localhost:3000';   // El dominio de desarrollo
 
 app.use(cors({
-  origin: allowedOrigin,
+  origin: 'https://syncnotiontogooglecalendar-front.onrender.com',
   credentials: true
 }));
 app.use(cookieParser());
