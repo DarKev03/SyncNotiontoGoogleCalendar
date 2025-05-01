@@ -74,18 +74,6 @@ export const googleCallback = async (req: Request, res: Response) => {
     }
 
 
-    res.send(`
-  <html>
-    <head>
-      <title>Redirigiendo...</title>
-    </head>
-    <body>
-      <script>
-        
-        window.location.href = 'https://syncnotiontogooglecalendar-front.onrender.com';
-      </script>
-    </body>
-  </html>
-`);
+    res.redirect('https://syncnotiontogooglecalendar-front.onrender.com');
 
 };
