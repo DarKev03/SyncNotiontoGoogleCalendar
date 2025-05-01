@@ -10,14 +10,17 @@ dotenv.config();
 
 const app = express();
 
+app.use(cors({
+  origin: 'https://syncnotiontogooglecalendar-front.onrender.com',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+}));
+
 const allowedOrigin = process.env.NODE_ENV === 'production'
   ? 'https://syncnotiontogooglecalendar-front.onrender.com'   // El dominio real en producción
   : 'http://localhost:3000';   // El dominio de desarrollo
 
-app.use(cors({
-  origin: 'https://syncnotiontogooglecalendar-front.onrender.com',
-  credentials: true
-}));
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -27,7 +30,11 @@ app.use(helmet.contentSecurityPolicy({
     styleSrc: ["'self'", "https://fonts.googleapis.com"],
     styleSrcElem: ["'self'", "https://fonts.googleapis.com"],
     fontSrc: ["'self'", "https://fonts.gstatic.com"],
-    connectSrc: ["'self'", allowedOrigin], // ✅ aquí entra el frontend
+    connectSrc: [
+      "'self'",
+      "https://syncnotiontogooglecalendar-front.onrender.com",
+      "https://syncnotiontogooglecalendar.onrender.com"
+    ],
     scriptSrc: ["'self'"],
     imgSrc: ["'self'"],
     baseUri: ["'self'"],
