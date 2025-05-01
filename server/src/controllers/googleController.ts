@@ -73,7 +73,7 @@ export const googleCallback = async (req: Request, res: Response) => {
         return;
     }
 
-
+    // Redirigir al front-end
     res.redirect('https://syncnotiontogooglecalendar-front.onrender.com');
 
 };
